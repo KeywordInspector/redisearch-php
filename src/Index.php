@@ -459,6 +459,16 @@ class Index extends AbstractIndex implements IndexInterface
      * @return bool
      * @throws Exceptions\FieldNotInSchemaException
      */
+    public function replacePartial($document): bool
+    {
+        return $this->_add($this->arrayToDocument($document)->setReplacePartial(true));
+    }
+
+    /**
+     * @param $document
+     * @return bool
+     * @throws Exceptions\FieldNotInSchemaException
+     */
     public function addHash($document): bool
     {
         return $this->_add($this->arrayToDocument($document), true);
@@ -472,6 +482,16 @@ class Index extends AbstractIndex implements IndexInterface
     public function replaceHash($document): bool
     {
         return $this->_add($this->arrayToDocument($document)->setReplace(true), true);
+    }
+
+    /**
+     * @param $document
+     * @return bool
+     * @throws Exceptions\FieldNotInSchemaException
+     */
+    public function replacePartialHash($document): bool
+    {
+        return $this->_add($this->arrayToDocument($document)->setReplacePartial(true), true);
     }
 
     /**

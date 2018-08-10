@@ -11,6 +11,7 @@ class Document implements DocumentInterface
     protected $score = 1.0;
     protected $noSave = false;
     protected $replace = false;
+    protected $replacePartial = false;
     protected $payload;
     protected $language;
 
@@ -35,6 +36,10 @@ class Document implements DocumentInterface
             $properties[] = 'REPLACE';
         }
 
+        if ($this->isReplacePartial()) {
+            $properties[] = 'REPLACE PARTIAL';
+        }
+
         return $properties;
     }
 
@@ -51,6 +56,10 @@ class Document implements DocumentInterface
 
         if ($this->isReplace()) {
             $properties[] = 'REPLACE';
+        }
+
+        if ($this->isReplacePartial()) {
+            $properties[] = 'REPLACE PARTIAL';
         }
 
         if (!is_null($this->getLanguage())) {
@@ -116,9 +125,20 @@ class Document implements DocumentInterface
         return $this->replace;
     }
 
+    public function isReplacePartial(): bool
+    {
+        return $this->replacePartial;
+    }
+
     public function setReplace(bool $replace): Document
     {
         $this->replace = $replace;
+        return $this;
+    }
+
+    public function setReplacePartial(bool $replacePartial): Document
+    {
+        $this->replacePartial = $replacePartial;
         return $this;
     }
 

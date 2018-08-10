@@ -29,6 +29,8 @@ interface IndexInterface extends BuilderInterface
     public function add($document): bool;
     public function addMany(array $documents, $disableAtomicity = false);
     public function replace($document): bool;
+    public function replacePartial($document): bool;
     public function addHash($document): bool;
     public function replaceHash($document): bool;
+    public function replacePartialHash($document): bool;
 }
