@@ -14,6 +14,9 @@ class FieldFactory
         if (is_numeric($value)) {
             return new NumericField($name, $value);
         }
+        if (is_array($value)) {
+            return new TagField($name, $value);
+        }
         if ($value instanceof GeoLocation) {
             return new GeoField($name, $value);
         }

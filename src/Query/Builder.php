@@ -215,6 +215,66 @@ class Builder implements BuilderInterface
         ) : new SearchResult(0, []);
     }
 
+    public function makeGetDocumentCommandArguments(string $id): array
+    {
+        return array_filter(
+                [$this->indexName, $id],
+            function ($item) {
+                return !is_null($item) && $item !== '';
+            }
+        );
+    }
+    public function getDocument(string $id, bool $documentsAsArray = false): GetDocumentResult
+    {
+        $rawResult = $this->redis->rawCommand(
+            'FT.GET',
+            $this->makeGetDocumentCommandArguments($id)
+        );
+        if (is_string($rawResult)) {
+            throw new RedisRawCommandException("Result: $rawResult, Id: $id");
+        }
+
+        return $rawResult ? GetDocumentResult::makeGetDocumentResult(
+            $rawResult,
+            $documentsAsArray,
+            $this->noContent !== '',
+            $id
+        ) : new GetDocumentResult(0);
+    }
+
+
+    public function makeGetMultiDocumentCommandArguments(array $ids): array
+    {
+        $data = [$this->indexName];
+        foreach($ids as $id){
+            $data[] = $id;
+        }
+        return array_filter(
+            $data,
+            function ($item) {
+                return !is_null($item) && $item !== '';
+            }
+        );
+    }
+
+    public function getMultiDocument(array $ids, bool $documentsAsArray = false): GetMultiDocumentResult
+    {
+        $rawResult = $this->redis->rawCommand(
+            'FT.MGET',
+            $this->makeGetMultiDocumentCommandArguments($ids)
+        );
+        if (is_string($rawResult)) {
+            throw new RedisRawCommandException("Result: $rawResult, Ids: ".implode(',',$ids));
+        }
+
+        return $rawResult ? GetMultiDocumentResult::makeGetMultiDocumentResult(
+            $rawResult,
+            $documentsAsArray,
+            $this->noContent !== '',
+            $ids
+        ) : new GetMultiDocumentResult(0, []);
+    }
+
     public function explain(string $query): string
     {
         return $this->redis->rawCommand('FT.EXPLAIN', $this->makeSearchCommandArguments($query));

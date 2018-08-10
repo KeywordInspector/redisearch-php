@@ -311,6 +311,54 @@ class IndexTest extends AbstractTestCase
         $this->assertTrue($result);
     }
 
+    public function testGetDocument()
+    {
+        $this->subject->create();
+        $expectedId = '1';
+        /** @var TestDocument $document */
+        $document = $this->subject->makeDocument($expectedId);
+        $document->title->setValue('How to be awesome.');
+        $document->author->setValue('Jack');
+        $document->price->setValue(9.99);
+        $document->stock->setValue(231);
+
+        $isDocumentAdded = $this->subject->add($document);
+        $result = $this->subject->getDocument($expectedId);
+
+        $this->assertTrue($isDocumentAdded);
+        $this->assertEquals($expectedId, $result->getDocument()[0]->id);
+    }
+
+    public function testGetMultiDocument()
+    {
+        $this->subject->create();
+        $expectedId = '1';
+        $expectedId2 = '2';
+        /** @var TestDocument $document */
+        $document = $this->subject->makeDocument($expectedId);
+        $document->title->setValue('How to be awesome.');
+        $document->author->setValue('Jack');
+        $document->price->setValue(9.99);
+        $document->stock->setValue(231);
+
+        $isDocumentAdded = $this->subject->add($document);
+        $this->assertTrue($isDocumentAdded);
+
+        $document = $this->subject->makeDocument($expectedId2);
+        $document->title->setValue('How to be awesome2.');
+        $document->author->setValue('Jack2');
+        $document->price->setValue(19.99);
+        $document->stock->setValue(220);
+
+        $isDocumentAdded = $this->subject->add($document);
+
+        $result = $this->subject->getMultiDocument([$expectedId,$expectedId2]);
+
+        $this->assertTrue($isDocumentAdded);
+        $this->assertEquals($expectedId, $result->getDocuments()[0]->id);
+        $this->assertEquals($expectedId2, $result->getDocuments()[1]->id);
+    }
+
     public function testSearch()
     {
         $this->subject->create();

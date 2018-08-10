@@ -24,5 +24,7 @@ interface BuilderInterface
     public function scorer(string $scoringFunction): BuilderInterface;
     public function language(string $languageName): BuilderInterface;
     public function search(string $query = '', bool $documentsAsArray = false): SearchResult;
+    public function getDocument(string $id, bool $documentsAsArray = false): GetDocumentResult;
+    public function getMultiDocument(array $ids, bool $documentsAsArray = false): GetMultiDocumentResult;
     public function explain(string $query): string;
 }

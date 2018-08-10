@@ -15,6 +15,8 @@ use Ehann\RediSearch\Fields\TextField;
 use Ehann\RediSearch\Query\Builder as QueryBuilder;
 use Ehann\RediSearch\Query\BuilderInterface as QueryBuilderInterface;
 use Ehann\RediSearch\Query\SearchResult;
+use Ehann\RediSearch\Query\GetDocumentResult;
+use Ehann\RediSearch\Query\GetMultiDocumentResult;
 use Ehann\RedisRaw\RedisRawClientInterface;
 
 class Index extends AbstractIndex implements IndexInterface
@@ -112,7 +114,7 @@ class Index extends AbstractIndex implements IndexInterface
      * @param bool $noindex
      * @return IndexInterface
      */
-    public function addTagField(string $name): IndexInterface
+    public function addTagField(array $name): IndexInterface
     {
         $this->$name = (new TagField($name));
         return $this;
@@ -352,6 +354,28 @@ class Index extends AbstractIndex implements IndexInterface
     public function search(string $query = '', bool $documentsAsArray = false): SearchResult
     {
         return $this->makeQueryBuilder()->search($query, $documentsAsArray);
+    }
+
+    /**
+     * @param string id
+     * @param bool $documentsAsArray
+     * @return GetDocumentResult
+     * @throws \Ehann\RedisRaw\Exceptions\RedisRawCommandException
+     */
+    public function getDocument(string $id, bool $documentsAsArray = false): GetDocumentResult
+    {
+        return $this->makeQueryBuilder()->getDocument($id, $documentsAsArray);
+    }
+
+    /**
+     * @param array id
+     * @param bool $documentsAsArray
+     * @return GetMultiDocumentResult
+     * @throws \Ehann\RedisRaw\Exceptions\RedisRawCommandException
+     */
+    public function getMultiDocument(array $ids, bool $documentsAsArray = false): GetMultiDocumentResult
+    {
+        return $this->makeQueryBuilder()->getMultiDocument($ids, $documentsAsArray);
     }
 
     /**
