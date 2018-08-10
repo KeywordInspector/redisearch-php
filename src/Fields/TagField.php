@@ -4,14 +4,27 @@ namespace Ehann\RediSearch\Fields;
 
 class TagField extends AbstractField
 {
-    public function __construct(string $name, $value = null)
+    protected $separator = ',';
+
+    public function __construct(string $name, $value = null, string $separator = ',')
     {
-        $this->name = $name;
-        $this->value = $value;
+        $this->separator = $separator;
+        parent::__construct($name, $value);
     }
+
     public function getType(): string
     {
-        return 'TAG';
+        return 'TAG SEPARATOR "'.$this->separator.'"';
+    }
+    public function getSeparator(): float
+    {
+        return $this->separator;
+    }
+
+    public function setSeparator(float $separator)
+    {
+        $this->separator = $separator;
+        return $this;
     }
     public function getTypeDefinition(): array
     {
@@ -21,7 +34,10 @@ class TagField extends AbstractField
 
     public function setValue($value)
     {
-        $this->value = implode(', ',$value);
+        if(is_array($value))
+            $this->value = implode($this->separator,$value);
+        else
+            $this->value = $value;
         return $this;
     }
 }

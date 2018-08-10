@@ -110,13 +110,12 @@ class Index extends AbstractIndex implements IndexInterface
 
     /**
      * @param string $name
-     * @param bool $sortable
-     * @param bool $noindex
+     * @param string $separator
      * @return IndexInterface
      */
-    public function addTagField(array $name): IndexInterface
+    public function addTagField(string $name, string $separator = ','): IndexInterface
     {
-        $this->$name = (new TagField($name));
+        $this->$name = (new TagField($name, $separator));
         return $this;
     }
 
@@ -357,7 +356,7 @@ class Index extends AbstractIndex implements IndexInterface
     }
 
     /**
-     * @param string id
+     * @param string $id
      * @param bool $documentsAsArray
      * @return GetDocumentResult
      * @throws \Ehann\RedisRaw\Exceptions\RedisRawCommandException
@@ -368,7 +367,7 @@ class Index extends AbstractIndex implements IndexInterface
     }
 
     /**
-     * @param array id
+     * @param array $ids
      * @param bool $documentsAsArray
      * @return GetMultiDocumentResult
      * @throws \Ehann\RedisRaw\Exceptions\RedisRawCommandException
