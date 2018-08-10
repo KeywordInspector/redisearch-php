@@ -10,6 +10,7 @@ use Ehann\RediSearch\Exceptions\NoFieldsInIndexException;
 use Ehann\RediSearch\Fields\FieldInterface;
 use Ehann\RediSearch\Fields\GeoField;
 use Ehann\RediSearch\Fields\NumericField;
+use Ehann\RediSearch\Fields\TagField;
 use Ehann\RediSearch\Fields\TextField;
 use Ehann\RediSearch\Query\Builder as QueryBuilder;
 use Ehann\RediSearch\Query\BuilderInterface as QueryBuilderInterface;
@@ -102,6 +103,18 @@ class Index extends AbstractIndex implements IndexInterface
     public function addNumericField(string $name, bool $sortable = false, bool $noindex = false): IndexInterface
     {
         $this->$name = (new NumericField($name))->setSortable($sortable)->setNoindex($noindex);
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @param bool $sortable
+     * @param bool $noindex
+     * @return IndexInterface
+     */
+    public function addTagField(string $name): IndexInterface
+    {
+        $this->$name = (new TagField($name));
         return $this;
     }
 
