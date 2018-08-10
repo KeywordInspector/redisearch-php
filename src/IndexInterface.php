@@ -22,9 +22,10 @@ interface IndexInterface extends BuilderInterface
     public function isNoOffsetsEnabled(): bool;
     public function setNoOffsetsEnabled(bool $noOffsetsEnabled): IndexInterface;
     public function isNoFieldsEnabled(): bool;
-    public function isNoHighlightEnabled(): bool;
     public function setNoFieldsEnabled(bool $noFieldsEnabled): IndexInterface;
-    public function addTextField(string $name, float $weight = 1.0, bool $sortable = false, bool $noindex = false, $nostem = false ): IndexInterface;
+    public function isNoHighlightEnabled(): bool;
+    public function setNoHighlightEnabled(bool $noFieldsEnabled): IndexInterface;
+    public function addTextField(string $name, float $weight = 1.0, bool $sortable = false, bool $noindex = false, bool $nostem = false ): IndexInterface;
     public function addNumericField(string $name, bool $sortable = false, bool $noindex = false): IndexInterface;
     public function addGeoField(string $name, bool $noindex = false): IndexInterface;
     public function add($document): bool;

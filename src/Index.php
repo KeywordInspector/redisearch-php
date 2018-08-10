@@ -84,6 +84,7 @@ class Index extends AbstractIndex implements IndexInterface
      * @param float $weight
      * @param bool $sortable
      * @param bool $noindex
+     * @param bool $nostem
      * @return IndexInterface
      */
     public function addTextField(string $name, float $weight = 1.0, bool $sortable = false, bool $noindex = false, bool $nostem = false): IndexInterface
@@ -106,6 +107,7 @@ class Index extends AbstractIndex implements IndexInterface
 
     /**
      * @param string $name
+     * @param bool $noindex
      * @return IndexInterface
      */
     public function addGeoField(string $name, bool $noindex = false): IndexInterface
