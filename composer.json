@@ -16,6 +16,10 @@
         {
             "name": "Ethan Hann",
             "email": "ethanhann@gmail.com"
+        },
+        {
+            "name": "James",
+            "email": "james@gmail.com"
         }
     ],
     "minimum-stability": "dev",
