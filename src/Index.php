@@ -22,6 +22,8 @@ class Index extends AbstractIndex implements IndexInterface
     private $noOffsetsEnabled = false;
     /** @var bool */
     private $noFieldsEnabled = false;
+    /** @var bool */
+    private $noHighlightEnabled = false;
     /** @var array */
     private $stopWords = null;
 
@@ -38,6 +40,9 @@ class Index extends AbstractIndex implements IndexInterface
         }
         if ($this->isNoFieldsEnabled()) {
             $properties[] = 'NOFIELDS';
+        }
+        if ($this->isNoHighlightEnabled()) {
+            $properties[] = 'NOHL';
         }
         if (!is_null($this->stopWords)) {
             $properties[] = 'STOPWORDS';
@@ -81,9 +86,9 @@ class Index extends AbstractIndex implements IndexInterface
      * @param bool $noindex
      * @return IndexInterface
      */
-    public function addTextField(string $name, float $weight = 1.0, bool $sortable = false, bool $noindex = false): IndexInterface
+    public function addTextField(string $name, float $weight = 1.0, bool $sortable = false, bool $noindex = false, bool $nostem = false): IndexInterface
     {
-        $this->$name = (new TextField($name))->setSortable($sortable)->setNoindex($noindex)->setWeight($weight);
+        $this->$name = (new TextField($name))->setSortable($sortable)->setNoindex($noindex)->setWeight($weight)->setNoStem($nostem);
         return $this;
     }
 
@@ -233,6 +238,24 @@ class Index extends AbstractIndex implements IndexInterface
     public function setNoFieldsEnabled(bool $noFieldsEnabled): IndexInterface
     {
         $this->noFieldsEnabled = $noFieldsEnabled;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNoHighlightEnabled(): bool
+    {
+        return $this->noHighlightEnabled;
+    }
+
+    /**
+     * @param bool $noHighlightEnabled
+     * @return IndexInterface
+     */
+    public function setNoHighlightEnabled(bool $noHighlightEnabled): IndexInterface
+    {
+        $this->noHighlightEnabled = $noHighlightEnabled;
         return $this;
     }
 
