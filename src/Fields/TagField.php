@@ -11,7 +11,6 @@ class TagField extends AbstractField
         $this->separator = $separator;
         parent::__construct($name, $value);
     }
-
     public function getType(): string
     {
         return 'TAG';
