@@ -20,7 +20,6 @@ class TagField extends AbstractField
     {
         return $this->separator;
     }
-
     public function setSeparator(float $separator)
     {
         $this->separator = $separator;
