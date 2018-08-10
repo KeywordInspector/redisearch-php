@@ -14,7 +14,7 @@ class TagField extends AbstractField
 
     public function getType(): string
     {
-        return 'TAG SEPARATOR "'.$this->separator.'"';
+        return 'TAG';
     }
     public function getSeparator(): float
     {
